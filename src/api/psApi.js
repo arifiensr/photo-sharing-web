@@ -23,7 +23,7 @@ const psApi = {
 
   getUserById: (id, token) => {
     const url = 'user/' + id
-    return axiosClient.post(url, { headers: { Authorization: `Bearer ${token}` } })
+    return axiosClient.get(url, { headers: { Authorization: `Bearer ${token}` } })
   },
 
   updateUserProfile: (data, token) => {
