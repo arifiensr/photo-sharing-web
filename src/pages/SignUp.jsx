@@ -20,14 +20,14 @@ export default function SignUp() {
       email: emailRef.current.value,
       password: passwordRef.current.value,
       passwordRepeat: passwordRepeatRef.current.value,
-      profilePictureUrlRef: profilePictureUrlRef.current.value,
+      profilePictureUrl: profilePictureUrlRef.current.value,
       phoneNumber: phoneNumberRef.current.value,
       bio: bioRef.current.value,
       website: websiteRef.current.value,
     }
 
     const register = await psApi.registerUser(data)
-    console.log(register);
+    console.log(register)
   }
 
   return (
