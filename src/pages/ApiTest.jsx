@@ -181,10 +181,10 @@ export default function ApiTest() {
     // console.log(Object.fromEntries(formData))
 
     const imageUrl = await psApi.uploadImage(formData, token)
-    console.log(imageUrl)
+    // console.log(imageUrl)
 
     const data = {
-      imageUrl: imageUrl.data.url,
+      imageUrl:imageUrl.url,
       caption: createPostCaptionRef.current.value,
     }
 
@@ -214,9 +214,10 @@ export default function ApiTest() {
     console.log(deletePost)
   }
 
-  async function getPostById(e) {
+  async function getPostById(e, id) {
     e.preventDefault()
-    const postId = getPostByIdRef.current.value
+    // const postId = getPostByIdRef.current.value
+    const postId = id
 
     const getPostId = await psApi.getPostById(postId, token)
     setPostById(getPostId.data)
@@ -231,6 +232,8 @@ export default function ApiTest() {
 
     const like = await psApi.likePost(data, token)
     console.log(like)
+
+    setLogin(true)
   }
 
   async function unlikePost(e, id) {
@@ -265,7 +268,8 @@ export default function ApiTest() {
     const createComment = await psApi.createComment(data, token)
     console.log(createComment)
 
-    getPostById(e)
+    // getPostByIdRef.current = createCommentPostIdRef.current.value
+    getPostById(e, data.postId)
   }
 
   useEffect(() => {
@@ -287,21 +291,29 @@ export default function ApiTest() {
     <>
       {!isLogin ? (
         <>
-          <div className="container">
+          <div className="container mt-4">
             <div className="row">
               <div className="col-12">
-                <form onSubmit={handleLogin}>
-                  <label htmlFor="email">Email</label>
-                  <br />
-                  <input ref={emailRef} type="email" id="email" />
-                  <br />
-                  <label htmlFor="password">Password</label>
-                  <br />
-                  <input ref={passwordRef} type="password" id="password" />
-                  <br />
-                  <button type="submit">Submit</button>
+                <form>
+                  <div className="mb-3">
+                    <label htmlFor="inputEmailLogin" className="form-label">
+                      Email address
+                    </label>
+                    <input ref={loginEmailRef} type="email" className="form-control" aria-describedby="emailHelp" />
+                  </div>
+                  <div className="mb-3">
+                    <label htmlFor="inputPasswordLogin" className="form-label">
+                      Password
+                    </label>
+                    <input ref={loginPasswordRef} type="password" className="form-control" />
+                  </div>
+                  <button type="submit" className="btn btn-primary" onClick={handleLogin}>
+                    Submit
+                  </button>
+                  <Link to={'signup'}>
+                    <button className="btn btn-secondary ms-2">Sign Up</button>
+                  </Link>
                 </form>
-                <Link to={'signup'}>Sign Up</Link>
               </div>
             </div>
           </div>
@@ -360,34 +372,48 @@ export default function ApiTest() {
                           <div className="row">
                             <div className="col-12">
                               <form>
-                                <label htmlFor="name" className="form-label">
-                                  Name
-                                </label>
-                                <input ref={loggedNameRef} defaultValue={loggedNameRef.current} type="text" className="form-control" />
-                                <label htmlFor="username" className="form-label">
-                                  Username
-                                </label>
-                                <input ref={loggedUsernameRef} defaultValue={loggedUsernameRef.current} type="text" className="form-control" />
-                                <label htmlFor="email" className="form-label">
-                                  Email
-                                </label>
-                                <input ref={loggedEmailRef} defaultValue={loggedEmailRef.current} type="email" className="form-control" />
-                                <label htmlFor="profilePictureUrl" className="form-label">
-                                  Profile Picture URL
-                                </label>
-                                <input ref={loggedProfilePictureUrlRef} defaultValue={loggedProfilePictureUrlRef.current} type="text" className="form-control" />
-                                <label htmlFor="phoneNumber" className="form-label">
-                                  Phone Number
-                                </label>
-                                <input ref={loggedPhoneNumberRef} defaultValue={loggedPhoneNumberRef.current} type="number" className="form-control" />
-                                <label htmlFor="bio" className="form-label">
-                                  Bio
-                                </label>
-                                <input ref={loggedBioRef} defaultValue={loggedBioRef.current} type="text" className="form-control" />
-                                <label htmlFor="website" className="form-label">
-                                  Website
-                                </label>
-                                <input ref={loggedWebsiteRef} defaultValue={loggedWebsiteRef.current} type="text" className="form-control" />
+                                <div className="mb-3">
+                                  <label htmlFor="name" className="form-label">
+                                    Name
+                                  </label>
+                                  <input ref={loggedNameRef} defaultValue={loggedNameRef.current} type="text" className="form-control" />
+                                </div>
+                                <div className="mb-3">
+                                  <label htmlFor="username" className="form-label">
+                                    Username
+                                  </label>
+                                  <input ref={loggedUsernameRef} defaultValue={loggedUsernameRef.current} type="text" className="form-control" />
+                                </div>
+                                <div className="mb-3">
+                                  <label htmlFor="email" className="form-label">
+                                    Email
+                                  </label>
+                                  <input ref={loggedEmailRef} defaultValue={loggedEmailRef.current} type="email" className="form-control" />
+                                </div>
+                                <div className="mb-3">
+                                  <label htmlFor="profilePictureUrl" className="form-label">
+                                    Profile Picture URL
+                                  </label>
+                                  <input ref={loggedProfilePictureUrlRef} defaultValue={loggedProfilePictureUrlRef.current} type="text" className="form-control" />
+                                </div>
+                                <div className="mb-3">
+                                  <label htmlFor="phoneNumber" className="form-label">
+                                    Phone Number
+                                  </label>
+                                  <input ref={loggedPhoneNumberRef} defaultValue={loggedPhoneNumberRef.current} type="number" className="form-control" />
+                                </div>
+                                <div className="mb-3">
+                                  <label htmlFor="bio" className="form-label">
+                                    Bio
+                                  </label>
+                                  <input ref={loggedBioRef} defaultValue={loggedBioRef.current} type="text" className="form-control" />
+                                </div>
+                                <div className="mb-3">
+                                  <label htmlFor="website" className="form-label">
+                                    Website
+                                  </label>
+                                  <input ref={loggedWebsiteRef} defaultValue={loggedWebsiteRef.current} type="text" className="form-control" />
+                                </div>
                                 <button type="submit" className="btn btn-primary" onClick={handleEditData}>
                                   Submit
                                 </button>
@@ -412,10 +438,12 @@ export default function ApiTest() {
                           <div className="row">
                             <div className="col-12">
                               <form>
-                                <label htmlFor="name" className="form-label">
-                                  User ID
-                                </label>
-                                <input ref={getUserByIdRef} type="text" className="form-control" id="id-input" />
+                                <div className="mb-3">
+                                  <label htmlFor="name" className="form-label">
+                                    User ID
+                                  </label>
+                                  <input ref={getUserByIdRef} type="text" className="form-control" id="id-input" />
+                                </div>
                                 <button type="submit" className="btn btn-primary" onClick={getUserById}>
                                   Submit
                                 </button>
@@ -469,6 +497,7 @@ export default function ApiTest() {
                               <div className="row">
                                 <h1>Explore Post</h1>
                                 {explorePost.map((item, i) => {
+                                  console.log(item)
                                   return (
                                     <div key={i} className="col-6 h-100">
                                       <img src={item.imageUrl} alt="" className="w-100 h-100 object-fit-contain" />
@@ -478,6 +507,15 @@ export default function ApiTest() {
                                       <p>
                                         <span className="fw-bold">{item.user?.username}</span> {item.caption}
                                       </p>
+                                      {item.comments && item.comments.map((comment, i) => {
+                                        return (
+                                          <>
+                                            <p>
+                                              <span className="fw-bold">{comment.user.username}</span> {comment.comment}
+                                            </p>
+                                          </>
+                                        )
+                                      })}
                                       <p>ID Post: {item.id}</p>
                                     </div>
                                   )
@@ -538,18 +576,24 @@ export default function ApiTest() {
                           <div className="row">
                             <div className="col-12">
                               <form>
-                                {/* <label htmlFor="imageUrl" className="form-label">
-                                  Image URL
-                                </label>
-                                <input ref={createPostImageUrlRef} type="text" className="form-control" /> */}
-                                <label htmlFor="chooseImage" className="form-label">
-                                  Choose Image
-                                </label>
-                                <input type="file" accept="image/*" onChange={handleImages} className="form-control" />
-                                <label htmlFor="caption" className="form-label">
-                                  Caption
-                                </label>
-                                <input ref={createPostCaptionRef} type="text" className="form-control" />
+                                <div className="mb-3">
+                                  <label htmlFor="imageUrl" className="form-label">
+                                    Image URL
+                                  </label>
+                                  <input ref={createPostImageUrlRef} type="text" className="form-control" />
+                                </div>
+                                <div className="mb-3">
+                                  <label htmlFor="chooseImage" className="form-label">
+                                    Choose Image
+                                  </label>
+                                  <input type="file" accept="image/*" onChange={handleImages} className="form-control" />
+                                </div>
+                                <div className="mb-3">
+                                  <label htmlFor="caption" className="form-label">
+                                    Caption
+                                  </label>
+                                  <input ref={createPostCaptionRef} type="text" className="form-control" />
+                                </div>
                                 <button type="submit" className="btn btn-primary" onClick={createPost}>
                                   Submit
                                 </button>
@@ -574,18 +618,24 @@ export default function ApiTest() {
                           <div className="row">
                             <div className="col-12">
                               <form>
-                                <label htmlFor="postId" className="form-label">
-                                  Post ID
-                                </label>
-                                <input ref={updatePostIdRef} type="text" className="form-control" />
-                                <label htmlFor="imageUrl" className="form-label">
-                                  Image URL
-                                </label>
-                                <input ref={updatePostImageUrlRef} type="text" className="form-control" />
-                                <label htmlFor="caption" className="form-label">
-                                  Caption
-                                </label>
-                                <input ref={updatePostCaptionRef} type="text" className="form-control" />
+                                <div className="mb-3">
+                                  <label htmlFor="postId" className="form-label">
+                                    Post ID
+                                  </label>
+                                  <input ref={updatePostIdRef} type="text" className="form-control" />
+                                </div>
+                                <div className="mb-3">
+                                  <label htmlFor="imageUrl" className="form-label">
+                                    Image URL
+                                  </label>
+                                  <input ref={updatePostImageUrlRef} type="text" className="form-control" />
+                                </div>
+                                <div className="mb-3">
+                                  <label htmlFor="caption" className="form-label">
+                                    Caption
+                                  </label>
+                                  <input ref={updatePostCaptionRef} type="text" className="form-control" />
+                                </div>
                                 <button type="submit" className="btn btn-primary" onClick={updatePost}>
                                   Submit
                                 </button>
@@ -610,10 +660,12 @@ export default function ApiTest() {
                           <div className="row">
                             <div className="col-12">
                               <form>
-                                <label htmlFor="postId" className="form-label">
-                                  Post ID
-                                </label>
-                                <input ref={deletePostIdRef} type="text" className="form-control" />
+                                <div className="mb-3">
+                                  <label htmlFor="postId" className="form-label">
+                                    Post ID
+                                  </label>
+                                  <input ref={deletePostIdRef} type="text" className="form-control" />
+                                </div>
                                 <button type="submit" className="btn btn-primary" onClick={(e) => deletePost(e)}>
                                   Submit
                                 </button>
@@ -638,11 +690,13 @@ export default function ApiTest() {
                           <div className="row">
                             <div className="col-12">
                               <form>
-                                <label htmlFor="postId" className="form-label">
-                                  Post ID
-                                </label>
-                                <input ref={getPostByIdRef} type="text" className="form-control" />
-                                <button type="submit" className="btn btn-primary" onClick={getPostById}>
+                                <div className="mb-3">
+                                  <label htmlFor="postId" className="form-label">
+                                    Post ID
+                                  </label>
+                                  <input ref={getPostByIdRef} type="text" className="form-control" />
+                                </div>
+                                <button type="submit" className="btn btn-primary" onClick={(e) => getPostById(e, getPostByIdRef.current.value)}>
                                   Submit
                                 </button>
                               </form>
@@ -656,6 +710,15 @@ export default function ApiTest() {
                                         <p>
                                           <span className="fw-bold">{postById.user.username}</span> {postById.caption}
                                         </p>
+                                        {postById.comments && postById.comments.map((comment, i) => {
+                                        return (
+                                          <>
+                                            <p>
+                                              <span className="fw-bold">{comment.user.username}</span> {comment.comment}
+                                            </p>
+                                          </>
+                                        )
+                                      })}
                                         <p>ID: {postById.id}</p>
                                       </div>
                                     </div>
@@ -682,10 +745,12 @@ export default function ApiTest() {
                           <div className="row">
                             <div className="col-12">
                               <form>
-                                <label htmlFor="postId" className="form-label">
-                                  User ID
-                                </label>
-                                <input ref={getPostByUserIdRef} type="text" className="form-control" />
+                                <div className="mb-3">
+                                  <label htmlFor="postId" className="form-label">
+                                    User ID
+                                  </label>
+                                  <input ref={getPostByUserIdRef} type="text" className="form-control" />
+                                </div>
                                 <button type="submit" className="btn btn-primary" onClick={getPostByUserId}>
                                   Submit
                                 </button>
@@ -695,7 +760,7 @@ export default function ApiTest() {
                               <>
                                 {postsByUserId.map((item, i) => {
                                   return (
-                                    <div key={i} className="col-6 h-100">
+                                    <div key={i} className="col-6 h-100 mt-3">
                                       <img src={item.imageUrl} alt="" className="w-100 h-100 object-fit-contain" />
                                       <p>
                                         {item.totalLikes} Likes {item.isLike ? <i className="bx bxs-heart" onClick={(e) => unlikePost(e, item.id)} style={{ cursor: 'pointer' }}></i> : <i className="bx bx-heart" onClick={(e) => likePost(e, item.id)} style={{ cursor: 'pointer' }}></i>}
@@ -729,14 +794,18 @@ export default function ApiTest() {
                           <div className="row">
                             <div className="col-12">
                               <form>
-                                <label htmlFor="postId" className="form-label">
-                                  Post ID
-                                </label>
-                                <input ref={createCommentPostIdRef} type="text" className="form-control" />
-                                <label htmlFor="comment" className="form-label">
-                                  Comment
-                                </label>
-                                <input ref={createCommentRef} type="text" className="form-control" />
+                                <div className="mb-3">
+                                  <label htmlFor="postId" className="form-label">
+                                    Post ID
+                                  </label>
+                                  <input ref={createCommentPostIdRef} type="text" className="form-control" />
+                                </div>
+                                <div className="mb-3">
+                                  <label htmlFor="comment" className="form-label">
+                                    Comment
+                                  </label>
+                                  <input ref={createCommentRef} type="text" className="form-control" />
+                                </div>
                                 <button type="submit" className="btn btn-primary" onClick={createComment}>
                                   Submit
                                 </button>
@@ -752,7 +821,7 @@ export default function ApiTest() {
                                       <p>
                                         <span className="fw-bold">{postById.user.username}</span> {postById.caption}
                                       </p>
-                                      {postById.comments.map((comment, i) => {
+                                      {postById.comments && postById.comments.map((comment, i) => {
                                         return (
                                           <>
                                             <p>

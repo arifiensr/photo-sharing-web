@@ -118,7 +118,7 @@ const psApi = {
 
   uploadImage: (data, token) => {
     const url = 'upload-image'
-    return axiosClient.post(url, data, { headers: { Authorization: `Bearer ${token}` } })
+    return axiosClient.post(url, data, { headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data' } })
   },
 }
 
