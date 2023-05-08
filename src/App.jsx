@@ -3,13 +3,16 @@ import { Route, Routes } from 'react-router-dom'
 import './App.scss'
 import Home from './pages/Home'
 import ApiTest from './pages/ApiTest'
-import SignUp from './pages/SignUp'
+import { useContext } from 'react'
+import { GlobalContext } from './config/GlobalState'
+import Auth from './pages/Auth'
 
 export default function App() {
+  const { isLogin } = useContext(GlobalContext)
   return (
     <Routes>
-      <Route path="/" element={<ApiTest />} />
-      <Route path="/signup" element={<SignUp />} />
+      {!isLogin ? <Route path="/" element={<Auth />} /> : <Route path="/" element={<Home />} />}
+      <Route path="/apitest" element={<ApiTest />} />
     </Routes>
   )
 }

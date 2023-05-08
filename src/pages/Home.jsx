@@ -1,24 +1,21 @@
-import { useRef, useState } from 'react'
-import psApi from '../api/psApi'
-import Dashboard from '../components/dashboard/Dashboard'
 import Navbar from '../components/navbar/Navbar'
+import Timeline from '../components/timeline/Timeline'
 import Sidebar from '../components/sidebar/Sidebar'
-import BootstrapThemeKit from './BootstrapThemeKit'
+import Footer from '../components/footer/Footer'
 
 export default function Home() {
   return (
     <>
-      {/* <BootstrapThemeKit/> */}
       <section id="homepage" className="homepage">
-        <div className="container mt-3 border border-black">
+        <div className="container">
           <div className="row">
-            <div className="col-md-3 col-sm-3 d-none d-sm-block">
+            <div className="col-3">
               <Navbar />
             </div>
-            <div className="col-12 col-sm-9 col-md-6">
-              <Dashboard />
+            <div className="col-6">
+              <Timeline />
             </div>
-            <div className="col-md-3 d-none d-md-block">
+            <div className="col-3">
               <Sidebar />
             </div>
           </div>
